@@ -1,40 +1,59 @@
 <script setup lang="ts">
-// import { onBeforeRouteLeave } from 'vue-router'
+import router from "./router";
 const DEFAULT_TRANSITION = "fade";
 
-let transitionName = DEFAULT_TRANSITION
+let transitionName = DEFAULT_TRANSITION;
 
-// onBeforeRouteLeave((to, from) => {
-//   let transitionName = to.meta.transitionName || from.meta.transitionName
+router.beforeEach(async (to, from, next) => {
+  let transitionName = to.meta.transitionName || from.meta.transitionName;
 
-//     if(transitionName === 'slide') {
-//       const toDepth = to.path.split('/').length
-//       const fromDepth = from.path.split('/').length
-//       transitionName = toDepth < fromDepth ? 'slide-left' : 'slide-right'
-//     }
+  if (transitionName === "slide") {
+    const toDepth = to.path.split("/").length;
+    const fromDepth = from.path.split("/").length;
+    transitionName = toDepth < fromDepth ? "slide-left" : "slide-right";
+  }
 
-//     transitionName = transitionName || DEFAULT_TRANSITION
+  transitionName = transitionName || DEFAULT_TRANSITION;
 
-//     // next()
-// })
+  next();
+});
 </script>
 
 <template>
   <div id="app">
-    <div class="fixednav lg:flex lg:justify-between">
-      <img src="./assets/images/Farmside.png" class="navbar-img" alt="">
+    <div class="fixednav lg:flex lg:justify-between sticky top-0 z-99 bg-white">
+      <img src="./assets/images/Farmside.png" class="navbar-img" alt="" />
       <div class="flex space-x-4 my-auto mx-4 justify-center">
-        <RouterLink :to="{name: 'home'}" class="nav-link font-bold p-2 hover:cursor-pointer">Home</RouterLink>
-        <RouterLink :to="{name: 'photographs'}" class="nav-link font-bold py-2 px-4 hover:cursor-pointer">Gallery</RouterLink>
-        <RouterLink :to="{name: 'book'}" class="nav-link font-bold py-2 px-4 hover:cursor-pointer">Book a Shoot</RouterLink>
-        <!-- <RouterLink to="#about" class="nav-link font-bold p-2 hover:cursor-pointer">About</RouterLink> -->
+        <RouterLink
+          :to="{ name: 'home' }"
+          class="nav-link font-bold p-2 hover:cursor-pointer"
+          >Home</RouterLink
+        >
+        <RouterLink
+          :to="{ name: 'photographs' }"
+          class="nav-link font-bold py-2 px-2 hover:cursor-pointer"
+          >Gallery</RouterLink
+        >
+        <RouterLink
+          :to="{ name: 'book' }"
+          class="nav-link font-bold py-2 px-2 hover:cursor-pointer"
+          >Book a Shoot</RouterLink
+        >
+        <!-- <RouterLink
+          to="#about"
+          class="nav-link font-bold p-2 hover:cursor-pointer"
+          >About</RouterLink
+        > -->
         <!-- <RouterLink to="/downloads" class="nav-link font-bold py-2 px-4 hover:cursor-pointer">Downloads</RouterLink> -->
       </div>
     </div>
     <div class="content">
       <main class="App__main">
         <router-view v-slot="{ Component, route }">
-          <transition :name="route.meta.transitionName || transitionName">
+          <transition
+            :name="route.meta.transitionName || transitionName"
+            appear
+          >
             <component :is="Component" :key="route.path" />
           </transition>
         </router-view>
@@ -57,23 +76,23 @@ body {
   margin-top: 65px;
 }
 
-.fade-enter-active,
-.fade-leave-active,
+.slide-enter-active,
+.slide-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition-duration: 0.4s;
+  transition-duration: 0.5s;
   transition-property: height, opacity, transform;
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
   overflow: hidden;
 }
 
-.fade-enter,
+.slide-enter,
 .slide-right-leave-active {
   opacity: 0;
   transform: translate(2em, 0);
 }
 
-.fade-leave-active,
+.slide-leave-active,
 .slide-right-enter {
   opacity: 0;
   transform: translate(-2em, 0);
@@ -89,7 +108,7 @@ body {
   margin-top: -10px;
   font-size: 18px;
   color: #000 !important;
-  transition: .5s !important;
+  transition: 0.3s !important;
 }
 .nav-link:hover {
   font-size: 22px;
