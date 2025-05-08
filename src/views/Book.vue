@@ -50,17 +50,23 @@
                 <PopoverTrigger as-child>
                   <Button
                     variant="outline"
-                    :class="cn(
-                      'w-full justify-start text-left font-normal',
-                      !form.event_date && 'text-muted-foreground',
-                    )"
+                    :class="
+                      cn(
+                        'w-full justify-start text-left font-normal',
+                        !form.event_date && 'text-muted-foreground'
+                      )
+                    "
                   >
                     <CalendarIcon class="mr-2 h-4 w-4" />
-                    {{ form.event_date ? df.format(form.event_date.toDate(getLocalTimeZone())) : "Pick a date" }}
+                    {{
+                      form.event_date
+                        ? df.format(form.event_date.toDate(getLocalTimeZone()))
+                        : "Pick a date"
+                    }}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent class="w-auto p-0">
-                  <Calendar v-model="form.event_date" initial-focus />
+                  <Calendar initial-focus />
                 </PopoverContent>
               </Popover>
             </div>
@@ -68,16 +74,12 @@
             <!-- Client Location -->
             <div class="flex flex-col w-full">
               <Label class="mb-1" for="Location">Location</Label>
-              <Select
-                required
-                v-model="form.location"
-                class="w-full"
-              >
+              <Select required v-model="form.location" class="w-full">
                 <SelectTrigger class="w-full">
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectGroup v-for="{value, text} in locations" :key="text">
+                  <SelectGroup v-for="{ value, text } in locations" :key="text">
                     <SelectItem :value="value">
                       {{ text }}
                     </SelectItem>
@@ -88,17 +90,31 @@
 
             <!-- Select event type -->
             <Label class="mb-1" for="Location">Event Type</Label>
-            <RadioGroup class="flex flex-wrap lg:flex-nowrap w-full justify-between">
+            <RadioGroup
+              class="flex flex-wrap lg:flex-nowrap w-full justify-between"
+            >
               <div class="flex items-center lg:space-x-2">
-                <RadioGroupItem v-model="form.event_type" value="Photo Shoot" class="border-3 p-2.5" />
+                <RadioGroupItem
+                  v-model="form.event_type"
+                  value="Photo Shoot"
+                  class="border-3 p-2.5"
+                />
                 <Label class="mx-2" for="Photo Shoot">Photo Shoot</Label>
               </div>
               <div class="flex items-center space-x-2">
-                <RadioGroupItem v-model="form.event_type" value="Video Shoot" class="border-3 p-2.5" />
+                <RadioGroupItem
+                  v-model="form.event_type"
+                  value="Video Shoot"
+                  class="border-3 p-2.5"
+                />
                 <Label class="mx-2" for="Video Shoot">Video Shoot</Label>
               </div>
               <div class="flex items-center space-x-2">
-                <RadioGroupItem v-model="form.event_type" value="Photo and Video" class="border-3 p-2.5" />
+                <RadioGroupItem
+                  v-model="form.event_type"
+                  value="Photo and Video"
+                  class="border-3 p-2.5"
+                />
                 <Label class="mx-2" for="Video Shoot">Photo and Video</Label>
               </div>
             </RadioGroup>
@@ -117,7 +133,7 @@
                 <SelectValue placeholder="Select Duration" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup v-for="{value, text} in duration" :key="text">
+                <SelectGroup v-for="{ value, text } in duration" :key="text">
                   <SelectItem :value="value">
                     {{ text }}
                   </SelectItem>
@@ -128,17 +144,17 @@
             <!-- Photoshoot Event selection -->
             <div v-if="form.event_type == 'Photo Shoot'">
               <Label class="mb-1" for="Photo Shoot">Photo Shoot</Label>
-              <Select
-                v-model="form.event_details.event"
-                class="w-full flex"
-              >
+              <Select v-model="form.event_details.event" class="w-full flex">
                 <SelectTrigger class="w-full">
                   <SelectValue placeholder="Photo Shoot Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectGroup v-for="{value, text} in photoshoot_events" :key="text">
+                  <SelectGroup
+                    v-for="{ text } in photoshoot_events"
+                    :key="text"
+                  >
                     <SelectLabel>{{ text }}</SelectLabel>
-                    <SelectItem :value="value">
+                    <SelectItem :value="text">
                       {{ text }}
                     </SelectItem>
                   </SelectGroup>
@@ -149,17 +165,17 @@
             <!-- Video shoot event selection -->
             <div v-if="form.event_type == 'Video Shoot'">
               <Label class="mb-1" for="Location">Video Shoot</Label>
-              <Select
-                v-model="form.event_details.event"
-                class="w-full flex"
-              >
+              <Select v-model="form.event_details.event" class="w-full flex">
                 <SelectTrigger class="w-full">
                   <SelectValue placeholder="Select Shoot Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectGroup v-for="{value, text} in videoshoot_events" :key="text">
+                  <SelectGroup
+                    v-for="{ text } in videoshoot_events"
+                    :key="text"
+                  >
                     <SelectLabel>{{ text }}</SelectLabel>
-                    <SelectItem :value="value">
+                    <SelectItem :value="text">
                       {{ text }}
                     </SelectItem>
                   </SelectGroup>
@@ -182,18 +198,26 @@
             <div
               v-if="
                 form.event_type == 'Photo Shoot' &&
-                  (form.event_details.event == 'Studio Shoot' ||
-                    form.event_details.event == 'Outdoor Shoot')
+                (form.event_details.event == 'Studio Shoot' ||
+                  form.event_details.event == 'Outdoor Shoot')
               "
             >
-              <Label class="mb-1" for="Change of Outfit">Change of outfit</Label>
+              <Label class="mb-1" for="Change of Outfit"
+                >Change of outfit</Label
+              >
               <RadioGroup>
                 <div class="flex items-center space-x-2">
-                  <RadioGroupItem v-model="form.event_details.outfit_change" value="Yes" />
+                  <RadioGroupItem
+                    v-model="form.event_details.outfit_change"
+                    value="Yes"
+                  />
                   <Label class="" for="Yes">Yes</Label>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <RadioGroupItem v-model="form.event_details.outfit_change" value="No" />
+                  <RadioGroupItem
+                    v-model="form.event_details.outfit_change"
+                    value="No"
+                  />
                   <Label class="" for="No">No</Label>
                 </div>
               </RadioGroup>
@@ -203,12 +227,14 @@
             <div
               v-if="
                 form.event_type == 'Photo Shoot' &&
-                  (form.event_details.event == 'Studio Shoot' ||
-                    form.event_details.event == 'Outdoor Shoot') &&
-                  form.event_details.outfit_change == 'Yes'
+                (form.event_details.event == 'Studio Shoot' ||
+                  form.event_details.event == 'Outdoor Shoot') &&
+                form.event_details.outfit_change == 'Yes'
               "
             >
-              <Label class="mb-1" for="Outfit Changes">Number of Outfit Changes</Label>
+              <Label class="mb-1" for="Outfit Changes"
+                >Number of Outfit Changes</Label
+              >
               <Input
                 id="outfit-changes-input"
                 type="number"
@@ -231,11 +257,15 @@
             </Textarea>
 
             <!-- Video shoot description area -->
-            <div v-if="
-              form.event_type == 'Video Shoot' ||
+            <div
+              v-if="
+                form.event_type == 'Video Shoot' ||
                 form.event_type == 'Photo and Video'
-            ">
-              <Label class="mb-1" for="Video Shoot Description">Enter a Video description</Label>
+              "
+            >
+              <Label class="mb-1" for="Video Shoot Description"
+                >Enter a Video description</Label
+              >
               <Textarea
                 id="message"
                 required
@@ -266,7 +296,7 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'vuex'
+import store from "@/store";
 import { ref, computed } from "vue";
 import BottomPage from "../components/BottomPage.vue";
 import { Button } from "@/components/ui/button";
@@ -274,14 +304,28 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "reka-ui";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectValue, SelectTrigger } from "@/components/ui/select";
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectValue,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-vue-next";
 import { cn } from "@/lib/utils";
-import { DateFormatter, type DateValue, getLocalTimeZone } from "@internationalized/date";
-
-const store = useStore()
+import {
+  DateFormatter,
+  type DateValue,
+  getLocalTimeZone,
+} from "@internationalized/date";
 
 const validatePhone = (phone: string) => {
   if (
@@ -295,42 +339,38 @@ const validatePhone = (phone: string) => {
   return { valid: true, error: null };
 };
 
-const now = new Date();
-const today = new Date(
-  now.getFullYear(),
-  now.getMonth(),
-  now.getDate() + 1
-);
+// const now = new Date();
+// const today = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-const minDate = new Date(today);
+// const minDate = new Date(today);
 
 interface BookingForm {
-  name: string,
-  email: string,
-  phone_number: string,
-  location: string,
-  event_date: DateValue | null,
-  event_type: string,
-  event_duration: string,
+  name: string;
+  email: string;
+  phone_number: string;
+  location: string;
+  event_date: DateValue | null;
+  event_type: string;
+  event_duration: string;
   event_details: {
-    event: string,
-    number_of_people: string,
-    outfit_change: string,
-    number_of_outfit_changes: string,
-    description: string,
-  }
+    event: string;
+    number_of_people: string;
+    outfit_change: string;
+    number_of_outfit_changes: string;
+    description: string;
+  };
 }
 
-const sending = ref<boolean>(false)
-const message = ref<string>("")
-const show = ref<boolean>(false)
-const min = ref<Date>(minDate)
-const valid = ref<boolean>(true)
-const errors = ref<Object>({})
-const icon = ref(["fa", "check"])
-const color = ref<string>("")
-const feedbackHeader = ref<string>("")
-const feedbackMessage = ref<string>("")
+const sending = ref<boolean>(false);
+// const message = ref<string>("");
+// const show = ref<boolean>(false);
+// const min = ref<Date>(minDate);
+const valid = ref<boolean>(true);
+const errors = ref<any>({});
+const icon = ref(["fa", "check"]);
+const color = ref<string>("");
+// const feedbackHeader = ref<string>("");
+const feedbackMessage = ref<string>("");
 const form = ref<BookingForm>({
   name: "",
   email: "",
@@ -346,7 +386,7 @@ const form = ref<BookingForm>({
     number_of_outfit_changes: "",
     description: "",
   },
-})
+});
 const locations = ref([
   { value: null, text: "Please select your county" },
   { value: "Nairobi", text: "Nairobi" },
@@ -354,7 +394,7 @@ const locations = ref([
   { value: "Kiambu", text: "Kiambu" },
   { value: "Kajiado", text: "Kajiado" },
   { value: "Nakuru", text: "Nakuru" },
-])
+]);
 const duration = [
   { value: null, text: "Please select the duration of the event/shoot" },
   { value: "Less than 1 hour", text: "Less than 1 hour" },
@@ -365,7 +405,7 @@ const duration = [
   { value: "5-6 hours", text: "5-6 hours" },
   { value: "6-12 hours", text: "6-12 hours" },
   { value: "Over 12 hours", text: "Over 12 hours" },
-]
+];
 const photoshoot_events = [
   { value: null, text: "Please select event" },
   { value: "Studio Shoot", text: "Studio Shoot" },
@@ -373,10 +413,10 @@ const photoshoot_events = [
   { value: "Birthday", text: "Birthday" },
   { value: "Graduation", text: "Graduation" },
   { value: "Funeral", text: "Funeral" },
-  { vlaue: "Baby Shower", text: "Baby Shower"},
+  { vlaue: "Baby Shower", text: "Baby Shower" },
   { value: "Dowry payment", text: "Dowry Payment" },
   { value: "Other", text: "Other" },
-]
+];
 const videoshoot_events = [
   { value: null, text: "Please select event" },
   { value: "Birthday", text: "Birthday" },
@@ -385,23 +425,23 @@ const videoshoot_events = [
   { value: "Tours and Travel", text: "Tours and Travel" },
   { value: "Music Video", text: "Music Video" },
   { value: "Vlog", text: "Vlog" },
-  { vlaue: "Advertisement", text: "Advertisement"},
-  { value: "Drone Shots", text:"Drone Shots"},
+  { vlaue: "Advertisement", text: "Advertisement" },
+  { value: "Drone Shots", text: "Drone Shots" },
   { value: "Other", text: "Other" },
-]
+];
 
-const df = new DateFormatter('en-US', {
-  dateStyle: 'long',
-})
+const df = new DateFormatter("en-US", {
+  dateStyle: "long",
+});
 
-const booking = ref<boolean>(false)
+const booking = ref<boolean>(false);
 
 const showModal = () => {
-  this.$refs["my-modal"].show();
-}
-const hideModal = () => {
-  this.$refs["my-modal"].hide();
-}
+  // this.$refs["my-modal"].show();
+};
+// const hideModal = () => {
+//   // this.$refs["my-modal"].hide();
+// };
 
 function book() {
   sending.value = true;
@@ -427,7 +467,7 @@ function book() {
         form.value.event_details.description = "";
         feedbackMessage.value =
           "Booking submitted successfully. We'll get back to you soon.";
-        icon.value= ["fa", "check"];
+        icon.value = ["fa", "check"];
         color.value = "#008000";
         showModal();
         sending.value = false;
@@ -443,8 +483,8 @@ function book() {
 }
 
 computed(() => {
-  store.getters.booking
-})
+  store.getters.booking;
+});
 </script>
 
 <style scoped>
