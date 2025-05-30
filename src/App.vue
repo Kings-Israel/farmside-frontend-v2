@@ -21,7 +21,7 @@ let transitionName = DEFAULT_TRANSITION
 
 <template>
   <div id="app">
-    <div class="fixednav lg:flex lg:justify-between">
+    <div class="fixednav sticky top-0 bg-black lg:flex lg:justify-between">
       <img src="./assets/images/Farmside.png" class="navbar-img" alt="">
       <div class="flex space-x-4 my-auto mx-4 justify-center">
         <RouterLink :to="{name: 'home'}" class="nav-link font-bold p-2 hover:cursor-pointer">Home</RouterLink>
@@ -85,26 +85,26 @@ body {
   margin-top: 5px;
 }
 
+.fixednav {
+  z-index: 999;
+}
+
 .nav-link {
   margin-top: -10px;
   font-size: 18px;
-  color: #000 !important;
+  color: #fff !important;
   transition: .5s !important;
 }
 .nav-link:hover {
   font-size: 22px;
   background-color: #259946;
-  color: #fff !important;
-  padding: 4px;
+  color: #000 !important;
+  padding: 3px;
   border-radius: 4px !important;
 }
 
 .show ul {
   background-color: #259946;
-}
-
-.nav-link {
-  color: #000 !important;
 }
 
 .show ul > li {

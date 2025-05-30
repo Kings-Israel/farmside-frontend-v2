@@ -8,7 +8,7 @@
         </div>
         <div class="container">
             <div id="section-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. At tellus at urna condimentum mattis pellentesque. Sed vulputate mi sit amet. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Nunc aliquet bibendum enim facilisis gravida neque. Adipiscing elit ut aliquam purus sit amet. Sagittis id consectetur purus ut faucibus pulvinar elementum integer enim. Faucibus pulvinar elementum integer enim neque volutpat ac. Iaculis urna id volutpat lacus laoreet non. In fermentum et sollicitudin ac orci phasellus.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. At tellus at urna condimentum mattis pellentesque. Sed vulputate mi sit amet. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Nunc aliquet bibendum enim facilisis gravida neque. Adipiscing elit ut aliquam purus sit amet. Sagittis id consectetur purus ut faucibus pulvinar elementum integer enim.</p>
+                <p>{{ about_text }}</p>
             </div>
             <hr>
             
@@ -18,7 +18,7 @@
             <div id="about-images" class="mt-4">
                 <div class="row">
                     <div class="col-3" id="about-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.</p>
+                        <p>{{ text }}</p>
                     </div>
                     <div class="col-3" id="about-image-1">
                         <img class="about-image-1" :src="image_links[0]" alt="">
@@ -43,40 +43,55 @@
                     <vueper-slide v-for="(slide, i) in image_links" :key="i" :image="slide" style="border-radius: 5px" />
                 </vueper-slides>
             </div>
-            <div id="section-content-2">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.</p>
-            </div>
         </div>
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import {ref} from 'vue'
 import { VueperSlides, VueperSlide } from 'vueperslides'
 import 'vueperslides/dist/vueperslides.css'
-import { mapGetters } from 'vuex'
-export default {
-    name: "About",
-    components : { VueperSlides, VueperSlide },
-    data() {
-        return {
-            image_links: [
+import { http } from '../lib/axios'
+const image_links = ref<String[]>([])
+const text = ref<String>('')
+const about_text = ref<String>('')
+
+const fetchImages = () => {
+    http.get('web-media?page=Home')
+        .then(res => {
+            res.data.forEach((res: any) => {
+                if (res.section == 'Our Highlight of the Month') {
+                    image_links.value.push(res.link)
+                }
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            image_links.value = [
                 'https://images.unsplash.com/photo-1530842025973-11b5f5013b2e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80',
                 'https://images.unsplash.com/photo-1612730376550-e8f1275e1b51?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDEzfHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60',
                 'https://images.unsplash.com/photo-1526231237819-de846f3a7e16?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDE2fHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60vv'
             ]
-        }
-    },
-    // mounted() {
-    //     this.$store.dispatch('aboutMain'),
-    //     this.$store.dispatch('aboutSub'),
-    //     this.$store.dispatch('getAboutImages')
-    // },
-    // computed: {
-    //     ...mapGetters([
-    //         'aboutMain', 'aboutSub', 'aboutImages'
-    //     ])
-    // }
+        })
 }
+
+const fetchContent = () => {
+    http.get('web-content?page=Home')
+        .then(res => {
+            res.data.forEach((res: any) => {
+                if (res.section == 'Our Highlight of the Month')
+                    text.value = res.content
+                if (res.section == 'About Us')
+                    about_text.value = res.content
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+fetchImages()
+fetchContent()
 </script>
 
 <style scoped>
@@ -84,9 +99,6 @@ export default {
     margin-bottom: 100px;
 }
 .photo-section {
-    display: none;
-}
-#section-content-2 {
     display: none;
 }
 #background {
