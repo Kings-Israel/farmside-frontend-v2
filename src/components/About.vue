@@ -96,90 +96,90 @@ fetchContent()
 
 <style scoped>
 .about {
-    margin-bottom: 100px;
+  margin-bottom: 100px;
 }
 .photo-section {
-    display: none;
+  display: none;
 }
 #background {
-    opacity: 0.15;
-    margin-top: 10px;
-    position: absolute;
-    z-index: -1;
+  opacity: 0.15;
+  margin-top: 10px;
+  position: absolute;
+  z-index: -1;
 }
 #background img {
-    width: 270px;
+  width: 270px;
 }
 #section-content p {
-    font-size: 22px;
-    text-align: center;
+  font-size: 22px;
+  text-align: center;
 }
 #about-images p {
-    font-size: 20px;
+  font-size: 20px;
 }
 #about-images img {
-    width: 250px;
-    padding: 3px;
-    border: 1px solid black;
-    border-radius: 4px;
+  width: 250px;
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 4px;
 }
 .about-image-1 {
-    margin-top: 40px;
-    transform: rotate(20deg);
+  margin-top: 40px;
+  transform: rotate(20deg);
 }
 .about-image-2 {
-    transform: rotate(-10deg);
+  transform: rotate(-10deg);
 }
 .about-image-3 {
-    margin-top: 10px;
-    transform: rotate(20deg);
+  margin-top: 10px;
+  transform: rotate(20deg);
 }
 
 @media (max-width: 1080px) {
-    #about-images img {
-        width: 200px;
-    }
-    #about-content {
-        display: none;
-    }
-    #section-content-2 {
-        margin-top: 10px;
-        text-align: center;
-        display: block;
-    }
-    #about-images img {
-        width: 250px;
-    }
-    .about-image-1 {
-        margin-top: 0px;
-        transform: none
-    }
-    .about-image-2 {
-        margin-left: 90px;
-        transform: none;
-    }
-    .about-image-3 {
-        margin-top: 0px;
-        margin-left: 180px;
-        transform: none;
-    }
+  #about-images img {
+    width: 200px;
+  }
+  #about-content {
+    display: none;
+  }
+  #section-content-2 {
+    margin-top: 10px;
+    text-align: center;
+    display: block;
+  }
+  #about-images img {
+    width: 250px;
+  }
+  .about-image-1 {
+    margin-top: 0px;
+    transform: none;
+  }
+  .about-image-2 {
+    margin-left: 90px;
+    transform: none;
+  }
+  .about-image-3 {
+    margin-top: 0px;
+    margin-left: 180px;
+    transform: none;
+  }
 }
 
 @media (max-width: 980px) {
-    #background img {
-        width: 250px;
-    }
-    #about-images img {
-        display: none;
-    }
-    #about-images p {
-        display: none;
-    }
-    #section-header {
-        text-align: center;
-    }
-    .photo-section {
-        display: block;
-    }
+  #background img {
+    width: 250px;
+  }
+  #about-images img {
+    display: none;
+  }
+  #about-images p {
+    display: none;
+  }
+  #section-header {
+    text-align: center;
+  }
+  .photo-section {
+    display: block;
+  }
 }
 </style>
