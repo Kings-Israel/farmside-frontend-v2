@@ -6,6 +6,7 @@ import Gallery from "./views/Gallery.vue";
 import Downloads from "./views/Downloads.vue";
 import PhotoGallery from "./components/PhotoGallery.vue";
 import VideoGallery from "./components/VideoGallery.vue";
+import Book2 from "./views/Book2.vue";
 
 const routes = [
   {
@@ -19,7 +20,7 @@ const routes = [
   {
     path: "/book",
     name: "book",
-    component: Book,
+    component: Book2,
     meta: {
       transitionName: "slide",
     },
