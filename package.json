@@ -14,6 +14,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@internationalized/date": "^3.8.0",
+    "@kyvg/vue3-notification": "^3.4.1",
     "@tabler/icons-vue": "^3.31.0",
     "@tailwindcss/vite": "^4.1.4",
     "@vee-validate/zod": "^4.15.1",

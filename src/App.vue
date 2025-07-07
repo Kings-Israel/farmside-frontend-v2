@@ -21,9 +21,10 @@ router.beforeEach(async (to, from, next) => {
 
 <template>
   <div id="app">
-    <div class="fixednav sticky top-0 bg-black lg:flex lg:justify-between">
+    <notifications />
+    <div class="fixednav px-4 sticky top-0 bg-black lg:flex lg:justify-between">
       <img src="./assets/images/Farmside.png" class="navbar-img" alt="">
-      <div class="flex space-x-4 my-auto mx-4 justify-center">
+      <div class="flex space-x-4 my-auto justify-center">
         <RouterLink
           :to="{ name: 'home' }"
           class="nav-link font-bold p-2 hover:cursor-pointer"
