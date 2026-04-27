@@ -5,7 +5,7 @@ import path from "node:path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV == "developemt" ? "/" : "/farmside",
+  base: process.env.NODE_ENV == "developemt" ? "/" : "/",
   plugins: [vue(), tailwindcss()],
   resolve: {
     alias: {
