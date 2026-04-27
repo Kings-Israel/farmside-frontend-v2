@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import "bootstrap/dist/css/bootstrap.css";
 import "material-icons/iconfont/material-icons.css";
 import router from "./router";
+import Notifications from '@kyvg/vue3-notification'
 
 const app = createApp(App);
 
@@ -31,4 +32,5 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(VAnimateCss);
 app.use(router);
 app.use(store);
+app.use(Notifications)
 app.mount("#app");

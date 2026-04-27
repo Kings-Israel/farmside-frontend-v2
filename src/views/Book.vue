@@ -3,11 +3,6 @@
     <div id="section-header">
       <h1 id="book">Book a shoot</h1>
     </div>
-
-    <!-- <b-modal hide-footer ref="my-modal" id="modal-center" centered>
-      <p><font-awesome-icon :icon="icon" size="2x" :color="color" /></p>
-      <h5 class="my-4">{{ feedbackMessage }}</h5>
-    </b-modal> -->
     <div class="container min-h-[70.9vh]">
       <form id="book-form" @submit.prevent="book">
         <div class="row">
@@ -303,7 +298,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "reka-ui";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -326,6 +321,7 @@ import {
   type DateValue,
   getLocalTimeZone,
 } from "@internationalized/date";
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const validatePhone = (phone: string) => {
   if (
