@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import router from "./router";
-const DEFAULT_TRANSITION = "fade";
 
+const DEFAULT_TRANSITION = "fade";
 let transitionName = DEFAULT_TRANSITION;
 
 router.beforeEach(async (to, from, next) => {
-  let transitionName = to.meta.transitionName || from.meta.transitionName;
+  let nextTransition = to.meta.transitionName || from.meta.transitionName;
 
-  if (transitionName === "slide") {
+  if (nextTransition === "slide") {
     const toDepth = to.path.split("/").length;
     const fromDepth = from.path.split("/").length;
-    transitionName = toDepth < fromDepth ? "slide-left" : "slide-right";
+    nextTransition = toDepth < fromDepth ? "slide-left" : "slide-right";
   }
 
-  transitionName = transitionName || DEFAULT_TRANSITION;
-
+  transitionName = nextTransition || DEFAULT_TRANSITION;
   next();
 });
 </script>
@@ -22,138 +21,129 @@ router.beforeEach(async (to, from, next) => {
 <template>
   <div id="app">
     <notifications />
-    <div class="fixednav px-4 sticky top-0 bg-black lg:flex lg:justify-between">
-      <img src="./assets/images/Farmside.png" class="navbar-img" alt="">
-      <div class="flex space-x-4 my-auto justify-center">
-        <RouterLink
-          :to="{ name: 'home' }"
-          class="nav-link font-bold p-2 hover:cursor-pointer"
-          >Home</RouterLink
-        >
-        <RouterLink
-          :to="{ name: 'photographs' }"
-          class="nav-link font-bold py-2 px-2 hover:cursor-pointer"
-          >Gallery</RouterLink
-        >
-        <RouterLink
-          :to="{ name: 'book' }"
-          class="nav-link font-bold py-2 px-2 hover:cursor-pointer"
-          >Book a Shoot</RouterLink
-        >
-        <!-- <RouterLink
-          to="#about"
-          class="nav-link font-bold p-2 hover:cursor-pointer"
-          >About</RouterLink
-        > -->
-        <!-- <RouterLink to="/downloads" class="nav-link font-bold py-2 px-4 hover:cursor-pointer">Downloads</RouterLink> -->
-      </div>
-    </div>
-    <div class="content">
-      <main class="App__main">
-        <router-view v-slot="{ Component, route }">
-          <transition
-            :name="route.meta.transitionName || transitionName"
-            appear
-          >
-            <component :is="Component" :key="route.path" />
-          </transition>
-        </router-view>
-      </main>
-    </div>
+    <header class="site-header">
+      <RouterLink :to="{ name: 'home' }" class="brand-link" aria-label="Farmside Media home">
+        <img src="./assets/images/Farmside.png" class="navbar-img" alt="Farmside Media" />
+      </RouterLink>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <RouterLink :to="{ name: 'home' }" class="nav-link">Home</RouterLink>
+        <RouterLink :to="{ name: 'photographs' }" class="nav-link">Gallery</RouterLink>
+        <RouterLink :to="{ name: 'book' }" class="nav-link nav-link--cta">
+          Book a Shoot
+        </RouterLink>
+      </nav>
+    </header>
+    <main class="App__main">
+      <router-view v-slot="{ Component, route }">
+        <transition :name="route.meta.transitionName || transitionName" appear>
+          <component :is="Component" :key="route.path" />
+        </transition>
+      </router-view>
+    </main>
   </div>
 </template>
 
 <style scoped>
-body {
-  overflow-x: hidden;
+.site-header {
+  align-items: center;
+  backdrop-filter: blur(18px);
+  background: rgba(9, 14, 11, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  min-height: 76px;
+  padding: 10px clamp(16px, 4vw, 56px);
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
-[v-cloak] {
-  display: none;
+
+.brand-link {
+  display: inline-flex;
+  min-width: 180px;
 }
-.navbar {
-  background-color: #fff;
+
+.navbar-img {
+  display: block;
+  height: 52px;
+  object-fit: contain;
+  width: 240px;
 }
-.content {
-  margin-top: 65px;
+
+.site-nav {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: end;
+}
+
+.nav-link {
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 10px 14px;
+  text-decoration: none;
+}
+
+.site-nav > .nav-link:hover,
+.site-nav > .router-link-active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link--cta {
+  background: #2fb85e;
+  color: #061008;
+}
+
+.nav-link--cta:hover,
+.nav-link--cta.router-link-active {
+  background: #9fe6b3;
+  color: #061008;
 }
 
 .slide-enter-active,
 .slide-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition-duration: 0.5s;
-  transition-property: height, opacity, transform;
-  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  transition-duration: 0.4s;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
   overflow: hidden;
 }
 
 .slide-enter,
 .slide-right-leave-active {
   opacity: 0;
-  transform: translate(2em, 0);
+  transform: translate(20px, 0);
 }
 
 .slide-leave-active,
 .slide-right-enter {
   opacity: 0;
-  transform: translate(-2em, 0);
+  transform: translate(-20px, 0);
 }
 
-.navbar-img {
-  width: 300px;
-  padding: -10px;
-  margin-top: 5px;
-}
-
-.fixednav {
-  z-index: 999;
-}
-
-.nav-link {
-  margin-top: -10px;
-  font-size: 18px;
-  color: #fff !important;
-  transition: .5s !important;
-}
-.nav-link:hover {
-  font-size: 22px;
-  background-color: #259946;
-  color: #000 !important;
-  padding: 3px;
-  border-radius: 4px !important;
-}
-
-.show ul {
-  background-color: #259946;
-}
-
-.show ul > li {
-  color: #000;
-  text-align: center;
-}
-
-@media (max-width: 980px) {
-  .navbar-img {
-    width: 260px;
-  }
-  .nav-link {
-    display: flex;
+@media (max-width: 700px) {
+  .site-header {
+    align-items: stretch;
     flex-direction: column;
-    justify-content: center;
-    margin: 0;
+    gap: 8px;
   }
-  .nav-link:hover {
-    background-color: #000;
-  }
-}
 
-@media (max-width: 580px) {
-  .navbar-img {
-    width: 100%;
-    object-fit: contain;
+  .brand-link {
+    justify-content: center;
   }
-  .nav-link:hover {
-    background-color: #000;
+
+  .navbar-img {
+    width: min(100%, 280px);
+  }
+
+  .site-nav {
+    justify-content: center;
   }
 }
 </style>

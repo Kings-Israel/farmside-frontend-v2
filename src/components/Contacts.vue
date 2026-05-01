@@ -1,11 +1,5 @@
 <template>
-  <div id="contact">
-    <div id="section-header">
-      <h1>Contact Us</h1>
-    </div>
-    <div id="background">
-      <img src="../assets/images/contact.png" alt="" />
-    </div>
+  <section id="contact" class="contact">
     <Dialog>
       <DialogContent>
         <DialogDescription>
@@ -14,95 +8,88 @@
         </DialogDescription>
       </DialogContent>
     </Dialog>
-    <div class="container">
-      <form @submit.prevent="submitMessage">
-        <div class="row">
-          <div
-            class="col-md-6 col-sm-6 d-flex flex-column align-content-center flex-wrap"
-          >
-            <div class="d-flex flex-col my-3 w-3/4">
-              <Label for="Name" class="mb-1">Name</Label>
-              <Input
-                id="name-input"
-                type="text"
-                required
-                placeholder="Enter your Name"
-                v-model="form.name"
-                class="w-full"
-              ></Input>
-            </div>
-            <div class="d-flex flex-col my-3">
-              <Label for="Name" class="mb-1">Email</Label>
-              <Input
-                id="email-input"
-                type="email"
-                required
-                placeholder="Enter your Email address"
-                v-model="form.email"
-              ></Input>
-            </div>
-            <div class="d-flex flex-col my-3">
-              <Label for="Name" class="mb-1">Phone Number</Label>
-              <Input
-                id="phone_number-input"
-                type="text"
-                required
-                placeholder="Enter Your Phone Number"
-                v-model="form.phone_number"
-              ></Input>
-              <div class="error">{{ errors.phone }}</div>
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-6">
-            <Textarea
-              id="message"
-              rows="15"
-              max-rows="15"
+
+    <div class="section-shell contact__grid">
+      <div class="contact__intro">
+        <p class="section-kicker">Start a project</p>
+        <h2>Tell us what you are planning.</h2>
+        <p>
+          Share a date, location and the kind of coverage you need. Farmside can
+          help shape the right photo or video package for your shoot.
+        </p>
+        <div class="contact__methods">
+          <a href="https://www.instagram.com/" aria-label="Instagram">
+            <font-awesome-icon :icon="['fab', 'instagram']" size="2x" />
+          </a>
+          <a href="https://www.youtube.com/" aria-label="YouTube">
+            <font-awesome-icon :icon="['fab', 'youtube']" size="2x" />
+          </a>
+        </div>
+      </div>
+
+      <form class="contact__form" @submit.prevent="submitMessage">
+        <div class="form-row">
+          <div>
+            <Label for="name-input">Name</Label>
+            <Input
+              id="name-input"
+              type="text"
               required
-              v-model="form.message"
-              placeholder="Enter Your Message..."
-              class="my-4"
-            ></Textarea>
+              placeholder="Your name"
+              v-model="form.name"
+            />
+          </div>
+          <div>
+            <Label for="email-input">Email</Label>
+            <Input
+              id="email-input"
+              type="email"
+              required
+              placeholder="you@example.com"
+              v-model="form.email"
+            />
           </div>
         </div>
-        <div class="w-full flex justify-center">
-          <Button
-            :disabled="sending"
-            type="submit"
-            class="rounded bg-black"
-            value="send-message"
-            name="submit"
-            >Send Message</Button
-          >
+        <div>
+          <Label for="phone_number-input">Phone Number</Label>
+          <Input
+            id="phone_number-input"
+            type="text"
+            required
+            placeholder="0712 345 678"
+            v-model="form.phone_number"
+          />
+          <p class="error">{{ errors.phone }}</p>
         </div>
+        <div>
+          <Label for="message">Message</Label>
+          <Textarea
+            id="message"
+            rows="8"
+            required
+            v-model="form.message"
+            placeholder="Tell us about the shoot, date, location and deliverables."
+          />
+        </div>
+        <Button :disabled="sending" type="submit" class="contact__submit">
+          Send Message
+        </Button>
       </form>
     </div>
-    <span>Find us On:</span>
-    <div id="social-media-links">
-      <a href="#"
-        ><font-awesome-icon :icon="['fab', 'instagram']" size="3x"
-      /></a>
-      <a href="#"><font-awesome-icon :icon="['fab', 'youtube']" size="3x" /></a>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-// import { mapGetters } from 'vuex';
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Label } from "reka-ui";
+import { Label } from "@/components/ui/label";
 
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 const form = ref({
@@ -113,11 +100,10 @@ const form = ref({
 });
 const icon = ref(["fa", "check"]);
 const color = ref<string>("");
-// const feedbackHeader = ref<string>("");
 const feedbackMessage = ref<string>("");
 const valid = ref<boolean>(true);
 const sending = ref<boolean>(false);
-const errors = ref({});
+const errors = ref<any>({});
 
 const validatePhone = (phone: string) => {
   if (
@@ -138,114 +124,116 @@ const submitMessage = () => {
   errors.value.phone = validPhone.error;
   valid.value = validPhone.valid;
 
-  if (valid) {
-    // $store.dispatch('sendMessage', form).then(() => {
-    //     if(message){
-    //         form.value.name = ""
-    //         form.value.email = ""
-    //         form.value.phone_number = ""
-    //         form.value.message = ""
-    //         icon.value = ['fa', 'check']
-    //         color.value = '#008000'
-    //         feedbackMessage.value = "Thank you for your feedback."
-    //         showModal()
-    //         sending.value = false
-    //     } else {
-    //         icon.value = ['fa', 'times']
-    //         color.value = '#FF0000'
-    //         feedbackMessage.value = "Message not Sent. Please try again."
-    //         showModal()
-    //         sending.value = false
-    //     }
-    // })
+  if (valid.value) {
+    feedbackMessage.value = "Thank you. We will get back to you soon.";
+    icon.value = ["fa", "check"];
+    color.value = "#2fb85e";
   }
-};
-const showModal = () => {
-  // this.$refs['my-modal'].show()
-};
-const hideModal = () => {
-  // this.$refs['my-modal'].hide()
+
+  sending.value = false;
 };
 </script>
 
 <style scoped>
-span {
+.contact {
+  background: #101412;
+  color: #ffffff;
+  padding: 96px 0;
+}
+
+.section-shell {
+  width: min(1360px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 56px;
+}
+
+.section-kicker {
+  color: #9fe6b3;
+  font-size: 0.92rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.7rem);
+  font-weight: 900;
+  line-height: 1;
+  margin: 0 0 22px;
+}
+
+.contact__intro > p:not(.section-kicker) {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.contact__methods {
   display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.contact__methods a {
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  color: #ffffff;
+  display: inline-flex;
+  height: 48px;
   justify-content: center;
-  padding-top: 20px;
-  font-size: 18px;
-}
-#contact {
-  position: relative;
-}
-#background {
-  opacity: 0.4;
-  margin-top: 10px;
-  position: absolute;
-}
-
-#submit {
-  width: 200px;
-  margin-left: 450px;
-}
-.error {
-  margin-top: 2px;
-  border-radius: 2px;
-  color: #ff0000;
-  height: 5px;
-}
-#modal-center p {
-  margin: 16px 10px 20px 50px;
-  float: left;
-}
-
-#social-media-links {
-  display: flex;
-  justify-content: center;
-}
-
-#social-media-links > a {
-  padding: 10px;
   text-decoration: none;
-  color: #000;
-  transition: 0.3s ease-in;
+  width: 48px;
 }
 
-#social-media-links > a:hover {
-  color: #fff;
-  background-color: #000;
-  border-radius: 3px;
+.contact__form {
+  background: #ffffff;
+  border-radius: 8px;
+  color: #101412;
+  display: grid;
+  gap: 18px;
+  padding: 28px;
 }
 
-@media (max-width: 1080px) {
-  #submit {
-    margin-left: 250px;
-    width: 50%;
-  }
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
-@media (max-width: 980px) {
-  #background img {
-    width: 300px;
-  }
-  #submit {
-    margin-left: 200px;
-  }
-  #social-media-links {
-    padding-bottom: 20px;
-  }
+label {
+  color: #344039;
+  display: block;
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 8px;
 }
 
-@media (max-width: 580px) {
-  #submit {
-    margin-left: 120px;
-  }
+.error {
+  color: #c62828;
+  font-size: 0.96rem;
+  min-height: 20px;
+  margin: 4px 0 0;
 }
 
-@media (max-width: 480px) {
-  #submit {
-    margin-left: 0;
-    width: 100%;
+.contact__submit {
+  background: #2fb85e;
+  border-radius: 6px;
+  color: #061008;
+  font-weight: 900;
+  min-height: 48px;
+}
+
+@media (max-width: 860px) {
+  .contact__grid,
+  .form-row {
+    grid-template-columns: 1fr;
   }
 }
 </style>

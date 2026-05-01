@@ -45,5 +45,9 @@ export default {
 </script>
 
 <style scoped>
-
+#videos :deep(.vueperslides) {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #101412;
+}
 </style>

@@ -1,13 +1,16 @@
 <template>
-  <div class="footer">
-    <div class="d-flex flex-column align-content-center flex-wrap">
-      <img src="../assets/images/Farmside.png" class="footer-img" alt="" />
-      <p id="footer-content">
-        <IconCopyright />
-        Farmside Media - {{ d.getFullYear() }}
-      </p>
+  <footer class="footer">
+    <div class="footer__inner">
+      <img src="../assets/images/Farmside.png" class="footer-img" alt="Farmside Media" />
+      <div class="footer__content">
+        <p>Photo, video and event storytelling.</p>
+        <p class="footer__copyright">
+          <IconCopyright />
+          Farmside Media - {{ d.getFullYear() }}
+        </p>
+      </div>
     </div>
-  </div>
+  </footer>
 </template>
 
 <script setup lang="ts">
@@ -17,38 +20,54 @@ const d = new Date();
 
 <style scoped>
 .footer {
-  background: #000;
+  background: #070d0a;
+  color: #ffffff;
+  padding: 34px 0;
 }
 
-#footer-content {
-  color: #fff;
+.footer__inner {
+  align-items: center;
   display: flex;
-  justify-content: center;
+  gap: 24px;
+  justify-content: space-between;
+  width: min(1360px, calc(100% - 40px));
+  margin: 0 auto;
 }
 
-#message {
-  display: inline;
-  padding-left: 10px;
-  color: rgb(26, 157, 41);
+.footer-img {
+  height: 58px;
+  object-fit: contain;
+  width: 240px;
 }
 
-@media (max-width: 980px) {
-  .footer-img {
-    margin: 0;
-    padding: 0;
-    width: 350px;
+.footer__content {
+  color: rgba(255, 255, 255, 0.68);
+  text-align: right;
+}
+
+.footer__content p {
+  margin: 0;
+}
+
+.footer__copyright {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+  .footer__inner {
+    align-items: start;
+    flex-direction: column;
   }
-}
-@media (max-width: 580px) {
-  .footer-img {
-    margin-top: 20px;
-  }
-}
 
-@media (max-width: 480px) {
-  #submit {
-    margin-left: 0;
-    width: 100%;
+  .footer__content {
+    text-align: left;
+  }
+
+  .footer-img {
+    width: min(100%, 280px);
   }
 }
 </style>

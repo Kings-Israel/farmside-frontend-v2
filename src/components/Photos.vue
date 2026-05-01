@@ -82,5 +82,12 @@ export default {
 </script>
 
 <style scoped>
+#photos :deep(.vueperslides) {
+  border-radius: 8px;
+  overflow: hidden;
+}
 
+#photos :deep(.vueperslide) {
+  background-color: #101412;
+}
 </style>

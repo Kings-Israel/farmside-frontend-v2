@@ -17,23 +17,14 @@ import BottomPage from "../components/BottomPage.vue";
 </script>
 
 <style>
-* {
-  transition: 0.5s;
-}
-
 [v-cloak] {
   display: none;
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 60px;
+  scroll-padding-top: 76px;
 }
 #home {
   scroll-margin-top: 10px;
-}
-#section-header h1 {
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
 }
 </style>

@@ -1,68 +1,51 @@
 <template>
   <div id="photographs-gallery">
-    <h3>Studio Photoshoots</h3>
-    <vueper-slides
-      autoplay
-      :breakpoints="breakpoints"
-      pauseOnHover
-      class="no-shadow"
-      :visible-slides="4"
-      :bullets="false"
-      :gap="1"
-      :touchable="false"
-      fixed-height="450px"
+    <div
+      v-for="type in filteredPhotoshootTypes"
+      :key="type"
     >
-      <vueper-slide
-        v-for="(slide, i) in studioShoots"
-        :key="i"
-        :image="slide.image"
-        style="border-radius: 5px"
-      />
-    </vueper-slides>
-    <h3>Outdoor Photoshoots</h3>
-    <vueper-slides
-      autoplay
-      :breakpoints="breakpoints"
-      pauseOnHover
-      class="no-shadow"
-      :visible-slides="4"
-      :bullets="false"
-      :gap="1"
-      :touchable="false"
-      fixed-height="420px"
-    >
-      <vueper-slide
-        v-for="(slide, i) in outdoorShoots"
-        :key="i"
-        :image="slide.image"
-        style="border-radius: 5px"
-      />
-    </vueper-slides>
-    <h3>Events</h3>
-    <vueper-slides
-      autoplay
-      :breakpoints="breakpoints"
-      pauseOnHover
-      class="no-shadow"
-      :visible-slides="4"
-      :bullets="false"
-      :gap="1"
-      :touchable="false"
-      fixed-height="420px"
-    >
-      <vueper-slide
-        v-for="(slide, i) in weddingShoots"
-        :key="i"
-        :image="slide.image"
-        style="border-radius: 5px"
-      />
-    </vueper-slides>
+      <h3>{{ type }}</h3>
+      <vueper-slides
+        autoplay
+        :breakpoints="breakpoints"
+        pauseOnHover
+        class="no-shadow"
+        :visible-slides="4"
+        :bullets="false"
+        :gap="1"
+        :touchable="false"
+        fixed-height="420px"
+      >
+        <vueper-slide
+          v-for="(slide, i) in categorizedImages[type]"
+          :key="`${type}-${i}`"
+          :image="slide.image"
+          style="border-radius: 5px"
+        />
+      </vueper-slides>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, reactive, ref } from "vue";
 import { VueperSlides, VueperSlide } from "vueperslides";
 import "vueperslides/dist/vueperslides.css";
+import { http } from "../lib/axios";
+
+const photoshootTypes = [
+  "Studio Photoshoots",
+  "Outdoor Photoshoots",
+  "Events",
+  "Birthdays",
+  "Graduations",
+  "Weddings",
+  "Funerals",
+  "Baby Showers",
+  "Other",
+];
+
+const imageLinks = ref<string[]>([]);
 
 const studioShoots = [
   {
@@ -170,7 +153,61 @@ const weddingShoots = [
       "https://images.unsplash.com/photo-1519741196428-6a2175fa2557?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NDJ8fHdlZGRpbmd8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60",
   },
 ];
-const index = null;
+
+const categorizedImages = reactive<Record<string, Array<{ image: string }>>>({});
+photoshootTypes.forEach((type) => {
+  categorizedImages[type] = [];
+});
+
+categorizedImages["Studio Photoshoots"] = [...studioShoots];
+categorizedImages["Outdoor Photoshoots"] = [...outdoorShoots];
+categorizedImages["Events"] = [...weddingShoots];
+
+const filteredPhotoshootTypes = computed(() =>
+  photoshootTypes.filter((type) => categorizedImages[type]?.length)
+);
+
+const getCategoryFromLink = (link: string) => {
+  const normalizedLink = link.toLowerCase();
+
+  for (const type of photoshootTypes) {
+    if (type === "Other") {
+      continue;
+    }
+
+    const typeWords = type.toLowerCase().split(/\s+/).filter(Boolean);
+    if (typeWords.some((word) => normalizedLink.includes(word))) {
+      return type;
+    }
+  }
+
+  return "Other";
+};
+
+const fetchImages = () => {
+  http
+    .get("web-media?page=Portfolio&type=image")
+    .then((res) => {
+      res.data.forEach((item: any) => {
+        if (!item.link) {
+          return;
+        }
+
+        imageLinks.value.push(item.link);
+
+        const category = getCategoryFromLink(item.link);
+        categorizedImages[category].push({ image: item.link });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+onMounted(() => {
+  fetchImages();
+});
+
 const breakpoints = {
   980: {
     slideRatio: 1 / 5,
@@ -186,6 +223,14 @@ const breakpoints = {
 
 <style scoped>
 #photographs-gallery {
-  margin: 0 50px;
+  margin: 0 auto 70px;
+  width: min(1360px, calc(100% - 40px));
+}
+
+h3 {
+  color: #101412;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 900;
+  margin: 34px 0 16px;
 }
 </style>

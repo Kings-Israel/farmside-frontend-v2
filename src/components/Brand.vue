@@ -1,279 +1,176 @@
 <template>
-  <div class="brand">
-    <div class="brand-bar">
-      <p class="brand-text">
-        We <span id="capture-text">Capture</span> your Special Moments
+  <section class="hero">
+    <div class="hero__media" aria-hidden="true">
+      <img
+        src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=85"
+        alt=""
+      />
+    </div>
+    <div class="hero__overlay" />
+    <div class="hero__content">
+      <p class="eyebrow">Photography, film and event storytelling</p>
+      <h1>Farmside Media captures the moments people come back to.</h1>
+      <p class="hero__copy">
+        Studio portraits, outdoor shoots, weddings, graduations, brand stories
+        and event coverage produced with care from planning to final delivery.
       </p>
-      <div id="learn-more-link">
-        <a href="#about" v-animate-css.hover="'bounce'">
-          <font-awesome-icon :icon="['fas', 'chevron-circle-down']" size="2x" />
-        </a>
+      <div class="hero__actions">
+        <RouterLink :to="{ name: 'book' }" class="button button--primary">
+          Book a Shoot
+        </RouterLink>
+        <RouterLink :to="{ name: 'photographs' }" class="button button--ghost">
+          View Work
+        </RouterLink>
       </div>
+      <dl class="hero__stats" aria-label="Farmside Media services">
+        <div>
+          <dt>Photo</dt>
+          <dd>Portraits and events</dd>
+        </div>
+        <div>
+          <dt>Video</dt>
+          <dd>Stories and coverage</dd>
+        </div>
+        <div>
+          <dt>Kenya</dt>
+          <dd>Available on location</dd>
+        </div>
+      </dl>
     </div>
-    <div class="container brand-images">
-      <div class="row">
-        <div class="col-4">
-          <div id="first-image">
-            <div class="card">
-              <div class="card-content">
-                <img
-                  src="https://images.unsplash.com/photo-1614533708409-fdad0805a4fa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-                  class="m-1"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div id="second-image">
-            <div class="card">
-              <div class="card-content">
-                <img
-                  src="https://images.unsplash.com/photo-1553367998-6ea7e682d40c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-                  class="m-1"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div id="third-image">
-            <div class="card">
-              <div class="card-content">
-                <img
-                  src="https://images.unsplash.com/photo-1557130680-0f816eef4743?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80"
-                  class="m-1"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4">
-          <div id="fourth-image">
-            <div class="card">
-              <div class="card-content">
-                <img
-                  src="https://images.unsplash.com/photo-1611233361051-6020330b649f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-                  class="m-1"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div id="fifth-image">
-            <div class="card">
-              <div class="card-content">
-                <img
-                  src="https://images.unsplash.com/photo-1591563603796-b1a90c91703e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80"
-                  class="m-1"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div id="sixth-image">
-            <div class="card">
-              <div class="card-content">
-                <img
-                  src="https://images.unsplash.com/photo-1568648801431-a7be13ee3a03?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-                  class="m-1"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts"></script>
 
 <style scoped>
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
-span {
+.hero {
   position: relative;
-  color: inherit;
-  text-decoration: none;
+  min-height: calc(100vh - 76px);
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  color: #ffffff;
+  background: #101412;
 }
 
-span:before,
-span:after {
-  content: "";
+.hero__media,
+.hero__media img,
+.hero__overlay {
   position: absolute;
-  transition: transform 0.5s ease;
-}
-#capture-text {
-  padding: 0 10px;
-  transition: 0.3s ease-in-out;
+  inset: 0;
 }
 
-#capture-text:hover {
-  color: #000;
-  background-color: #fff;
-}
-#capture-text:before,
-#capture-text:after {
-  left: 0;
-  top: 0;
+.hero__media img {
   width: 100%;
   height: 100%;
-  border-style: solid;
-  border-color: #259946;
-}
-#capture-text:before {
-  border-width: 2px 0 2px 0;
-  transform: scaleX(0);
-}
-#capture-text:after {
-  border-width: 5px 5px 5px 5px;
-  transform: scaleY(0);
-}
-#capture-text:hover:before,
-#capture-text:hover:after {
-  transform: scale(1, 1);
+  object-fit: cover;
 }
 
-.brand {
-  margin-bottom: 50px;
+.hero__overlay {
+  background:
+    linear-gradient(90deg, rgba(7, 13, 10, 0.92), rgba(7, 13, 10, 0.5) 52%, rgba(7, 13, 10, 0.2)),
+    linear-gradient(0deg, rgba(7, 13, 10, 0.9), rgba(7, 13, 10, 0.05) 48%);
 }
-.brand-bar {
-  width: 100%;
-  background: rgba(39, 39, 39, 0.5);
-  margin-top: 170px;
-  height: 290px;
+
+.hero__content {
+  position: relative;
   z-index: 1;
-  position: absolute;
-}
-.brand-text {
-  display: flex;
-  justify-content: center;
-  font-size: 60px;
-  font-weight: bold;
-  margin-top: 30px;
-  color: #fff;
-  font-family: "Coda Caption", sans-serif;
+  width: min(1360px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 96px 0 44px;
 }
 
-.brand-bar a {
+.eyebrow {
+  color: #9fe6b3;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 850px;
+  font-size: clamp(2.8rem, 8vw, 6.4rem);
+  font-weight: 900;
+  line-height: 0.94;
+  margin: 0;
+}
+
+.hero__copy {
+  max-width: 820px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: clamp(1.12rem, 2vw, 1.42rem);
+  line-height: 1.7;
+  margin: 28px 0;
+}
+
+.hero__actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  padding-top: 20px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 6px;
+  font-weight: 800;
   text-decoration: none;
-  color: #fff;
-  font-size: 24px;
-  object-fit: contain;
-}
-.brand-bar a:hover {
-  color: #259946;
-  font-weight: bold;
-}
-.container {
-  margin-top: -40px;
-}
-#first-image {
-  margin-top: 70px;
-  transform: rotate(20deg);
-}
-#second-image {
-  margin-top: 70px;
-  margin-left: 20px;
-  transform: rotate(-10deg);
-}
-#third-image {
-  margin-top: 70px;
-  transform: rotate(5deg);
-}
-#fourth-image {
-  margin-top: -40px;
-  transform: rotate(-15deg);
-}
-#fifth-image {
-  margin-top: -100px;
-  height: 300px;
-}
-#sixth-image {
-  margin-top: -250px;
-  height: 300px;
-  transform: rotate(-5deg);
-}
-img {
-  width: 270px;
-  padding: 1px;
-  padding-left: 2px;
-  border-radius: 4px;
 }
 
-.card {
-  background: rgb(232, 255, 227);
-  width: 280px;
-  border: 1px solid black;
-  margin: 55px;
+.button--primary {
+  background: #2fb85e;
+  color: #061008;
 }
 
-@media (max-width: 1080px) {
-  .brand-images {
-    display: none;
-  }
-  .brand-bar {
-    position: relative;
-    margin-top: 0;
-    height: 100%;
-  }
-  .brand-text {
-    display: inline-block;
-    text-align: center;
-  }
-  span {
-    position: relative;
-  }
+.button--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  color: #ffffff;
 }
 
-@media (max-width: 980px) {
-  .brand-images {
-    display: none;
-  }
-
-  .brand-bar {
-    position: relative;
-    margin-top: 0;
-    height: 100%;
-  }
-
-  .brand-text {
-    display: inline-block;
-    text-align: center;
-  }
-  span {
-    position: relative;
-  }
+.hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  width: min(920px, 100%);
+  margin: 56px 0 0;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-@media (max-width: 580px) {
-  #capture-text {
-    padding: 0;
+.hero__stats div {
+  padding: 18px;
+  background: rgba(6, 16, 8, 0.58);
+  backdrop-filter: blur(14px);
+}
+
+.hero__stats dt {
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.hero__stats dd {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1rem;
+  margin: 4px 0 0;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    min-height: auto;
   }
-  #capture-text:hover {
-    background-color: #259946;
+
+  .hero__content {
+    padding: 72px 0 28px;
   }
-  #capture-text:hover:before,
-  #capture-text:hover:after {
-    transform: scale(0, 0);
+
+  .hero__stats {
+    grid-template-columns: 1fr;
+    margin-top: 36px;
   }
 }
 </style>
