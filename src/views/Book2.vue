@@ -121,12 +121,13 @@ const applyIfPresent = (key: keyof BookingForm, value: unknown) => {
 };
 
 const applyAgentSuggestion = (suggestion: any) => {
+  console.log(suggestion)
   const details = suggestion.event_details || {};
 
   applyIfPresent("event_name", suggestion.event_name || suggestion.name);
   // applyIfPresent("email", suggestion.email);
   // applyIfPresent("phone_number", suggestion.phone_number || suggestion.phone);
-  applyIfPresent("location", suggestion.location);
+  applyIfPresent("location", suggestion.location || suggestion.event_location);
   applyIfPresent("event_date", suggestion.event_date);
   applyIfPresent("event_type", suggestion.event_type);
   applyIfPresent("event_duration", suggestion.event_duration || suggestion.duration);
@@ -144,7 +145,7 @@ const applyAgentSuggestion = (suggestion: any) => {
         ""
     )
   );
-  applyIfPresent("description", suggestion.description || details.description);
+  applyIfPresent("description", suggestion.description || details.description || suggestion.event_description);
 
   agentFeedback.value =
     suggestion.summary ||
